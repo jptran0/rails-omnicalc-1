@@ -28,21 +28,18 @@ class CalcController < ApplicationController
 
   def payment_result
     # params = {"apr"=>"5.42", "years"=>"10", "principal"=>"10000"}
-    pv = params.fetch("principal").to_f
-    @principal = pv.to_s(:currency)
+    @principal = params.fetch("principal").to_f
 
-    rate = params.fetch("apr").to_f
-    @apr = rate.to_s(:percentage, { precision: 4 })
-    r = rate / 12 / 100
+    @apr = params.fetch("apr").to_f
+    r = @apr / 12.0 / 100.0
 
-    @years = params.fetch("years")
-    n = @years.to_i * -12
+    @years = params.fetch("years").to_i
+    n = @years * 12.0
 
-    numerator = r * pv
-    denominator = 1 - (1+ r) ** n
+    numerator = r * @principal
+    denominator = 1.0 - ((1.0 + r) ** -n)
 
-    p = numerator / denominator
-    @payment = p.to_s(:currency)
+    @payment = numerator / denominator
 
     render template: "calc/payment_result"
   end
