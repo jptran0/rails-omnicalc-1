@@ -5,8 +5,8 @@ class CalcController < ApplicationController
   end
 
   def square_result
-    @number = params.fetch("square").to_i
-    @square = @number ** 2
+    @number = params.fetch("square")
+    @square = @number.to_f ** 2
     render template: "calc/square_result"
   end
 
@@ -16,8 +16,8 @@ class CalcController < ApplicationController
   end
 
   def root_result
-    @number = params.fetch("square_root").to_i
-    @root = @number ** 0.5
+    @number = params.fetch("square_root")
+    @root = @number.to_f ** 0.5
     render template: "calc/root_result"
   end
 
